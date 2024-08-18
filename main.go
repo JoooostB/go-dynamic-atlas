@@ -70,7 +70,7 @@ func main() {
 			return
 		}
 		// Create IP access list
-		_, err := client.CreateIPAccessList(input.IP, input.Comment)
+		_, err := client.CreateIPAccessList(fmt.Sprintf("%s/32", input.IP), input.Comment)
 		if err != nil {
 			c.JSON(500, gin.H{"error": err.Error()})
 			return
