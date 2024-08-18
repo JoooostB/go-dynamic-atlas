@@ -64,20 +64,21 @@ func main() {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return
 		}
+		cidr := fmt.Sprintf("%s/32", input.IP)
 		// Check if IP already exists in access list
-		if client.checkExistingIP(input.IP) {
+		if client.checkExistingIP(cidr) {
 			c.JSON(200, gin.H{"message": "IP already exists in access list"})
 			return
 		}
 		// Create IP access list
-		_, err := client.CreateIPAccessList(fmt.Sprintf("%s/32", input.IP), input.Comment)
+		_, err := client.CreateIPAccessList(cidr, input.Comment)
 		if err != nil {
 			c.JSON(500, gin.H{"error": err.Error()})
 			return
 		}
 		c.JSON(200, gin.H{"message": "IP added to access list"})
 		// Remove old entries
-		err = client.RemoveOldEntries(input.IP)
+		err = client.RemoveOldEntries(cidr)
 		if err != nil {
 			c.JSON(500, gin.H{"error": err.Error()})
 			return
