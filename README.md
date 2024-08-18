@@ -9,7 +9,24 @@
   \_____|\____/       |_____/  |_|  |_| \_/_/    \_\_|  |_|_____\_____|  /_/    \_\_|  |______/_/    \_\_____/
 ```
 
-[Go Dynamic Atlas](https://github.com/joooostb/go-dynamic-atlas) is a simple server that listens for [GoDNS](https://github.com/TimothyYe/godns) webhook events in order to update MongoDB Atlas with the latest dynamic IP address of your server. This ensures that your MongoDB Atlas cluster is always accessible from your server, while keeping the attack surface as small as possible by only allowing access from your server's IP address.
+[![Go Report Card][5]][6]  
+[![Apache licensed][3]][4] [![Docker][1]][2]  
+[![Build Status][7]][8] [![Lint Status][9]][10] [![Release Status][11]][12]
+
+[1]: https://img.shields.io/docker/image-size/joooostb/go-dynamic-atlas/latest
+[2]: https://hub.docker.com/r/joooostb/go-dynamic-atlas
+[3]: https://img.shields.io/badge/license-Apache-blue.svg
+[4]: LICENSE
+[5]: https://goreportcard.com/badge/github.com/joooostb/go-dynamic-atlas
+[6]: https://goreportcard.com/report/github.com/joooostb/go-dynamic-atlas
+[7]: https://img.shields.io/github/actions/workflow/status/joooostb/go-dynamic-atlas/docker.yml?label=docker%20build
+[8]: https://github.com/JoooostB/go-dynamic-atlas/actions/workflows/docker.yml
+[9]: https://img.shields.io/github/actions/workflow/status/joooostb/go-dynamic-atlas/go.yml?label=ci
+[10]: https://github.com/JoooostB/go-dynamic-atlas/actions/workflows/go.yml
+[11]: https://img.shields.io/github/actions/workflow/status/joooostb/go-dynamic-atlas/release.yml?label=release
+[12]: https://github.com/JoooostB/go-dynamic-atlas/actions/workflows/release.yml
+
+[Go Dynamic Atlas](https://github.com/joooostb/go-dynamic-atlas) is a simple server that listens for [go-dynamic-atlas](https://github.com/joooostb/go-dynamic-atlas) webhook events in order to update MongoDB Atlas with the latest dynamic IP address of your server. This ensures that your MongoDB Atlas cluster is always accessible from your server, while keeping the attack surface as small as possible by only allowing access from your server's IP address.
 
 ## Required Access
 
@@ -26,7 +43,7 @@ Make sure the following environment variables are set:
 
 ## Features
 
-- [x] Listen for GoDNS webhook events
+- [x] Listen for go-dynamic-atlas webhook events
 - [x] Update MongoDB Atlas IP Access List with the latest IP address
 - [x] Automatically remove old IP addresses from the IP Access List
 - [x] Docker support
@@ -43,12 +60,12 @@ Setup a webhook with POST request to `http://<server-ip>:8080/api/v1/updateIP` a
 }
 ```
 
-### Webhook with HTTP POST request in GODNS
+### Webhook with HTTP POST request in go-dynamic-atlas
 
 ```yml
 "webhook": {
   "enabled": true,
   "url": "http://<server-ip>:8080/api/v1/updateIP",
-  "request_body": "{ \"ip\": \"{{.CurrentIP}}\", \"comment\": \"Updated from GoDNS.\" }"
+  "request_body": "{ \"ip\": \"{{.CurrentIP}}\", \"comment\": \"Updated from go-dynamic-atlas.\" }"
 }
 ```
