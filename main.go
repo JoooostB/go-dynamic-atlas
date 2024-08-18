@@ -39,7 +39,10 @@ func newClient() (*config, error) {
 	if err != nil {
 		return nil, err
 	}
-	r.SetTrustedProxies(nil)
+	err = r.SetTrustedProxies(nil)
+	if err != nil {
+		return nil, err
+	}
 	return &config{ctx: ctx, client: sdk, projectID: projectID, gin: r}, nil
 }
 
@@ -74,9 +77,16 @@ func main() {
 		}
 		c.JSON(200, gin.H{"message": "IP added to access list"})
 		// Remove old entries
-		client.RemoveOldEntries(input.IP)
+		err = client.RemoveOldEntries(input.IP)
+		if err != nil {
+			c.JSON(500, gin.H{"error": err.Error()})
+			return
+		}
 	})
-	client.gin.Run(":8080")
+	err = client.gin.Run(":8080")
+	if err != nil {
+		log.Fatalf("Could not start server: %v", err)
+	}
 }
 
 // Check if IP already exists in the access list
